@@ -341,3 +341,173 @@ CALL ver_salario('Ana');
 CALL ver_salario('Luis');
 SELECT * FROM log_accesos_salarios;
 ```
+
+---------------
+---------------
+
+## Hash y copia de seguridad
+
+```SQL
+-- =====================================================
+-- DEMO SEGURIDAD Y AUDITORÍA EN BASE DE DATOS
+-- =====================================================
+
+DROP DATABASE IF EXISTS empresa_demo;
+CREATE DATABASE empresa_demo;
+USE empresa_demo;
+
+-- =====================================================
+-- TABLA EMPLEADOS (DATOS REALES)
+-- =====================================================
+
+CREATE TABLE empleados (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(50),
+puesto VARCHAR(50),
+salario INT
+);
+
+INSERT INTO empleados(nombre,puesto,salario) VALUES
+('Ana','Analista',32000),
+('Carlos','Administrador Sistemas',38000),
+('Marta','Marketing',42000);
+
+-- =====================================================
+-- TABLA BACKUP DE EMPLEADOS
+-- =====================================================
+-- Aquí se guardará automáticamente una copia
+-- cada vez que se inserte un nuevo empleado
+
+CREATE TABLE empleados_backup (
+id INT,
+nombre VARCHAR(50),
+puesto VARCHAR(50),
+salario INT,
+fecha_backup DATETIME
+);
+
+-- =====================================================
+-- TRIGGER DE BACKUP AUTOMÁTICO
+-- =====================================================
+
+DELIMITER $$
+
+CREATE TRIGGER backup_empleados
+AFTER INSERT ON empleados
+FOR EACH ROW
+BEGIN
+
+INSERT INTO empleados_backup
+VALUES(
+NEW.id,
+NEW.nombre,
+NEW.puesto,
+NEW.salario,
+NOW()
+);
+
+END$$
+
+DELIMITER ;
+
+-- =====================================================
+-- VISTA CON SUELDO HASHEADO
+-- =====================================================
+-- Oculta el sueldo real usando SHA2
+
+CREATE VIEW empleados_seguridad AS
+SELECT
+nombre,
+puesto,
+SHA2(salario,256) AS salario_hash
+FROM empleados;
+```
+
+## Cifrar y descifrar datos en tablas con vistas
+
+```SQL
+-- =====================================================
+-- DEMO CIFRADO AES EN MYSQL
+-- =====================================================
+
+DROP DATABASE IF EXISTS empresa_cifrado;
+CREATE DATABASE empresa_cifrado;
+USE empresa_cifrado;
+
+-- =====================================================
+-- TABLA EMPLEADOS
+-- =====================================================
+
+CREATE TABLE empleados (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(50),
+puesto VARCHAR(50),
+salario INT
+);
+
+INSERT INTO empleados(nombre,puesto,salario) VALUES
+('Ana','Analista',32000),
+('Carlos','Administrador Sistemas',38000),
+('Marta','Marketing',42000),
+('Luis','Director General',150000);
+
+-- =====================================================
+-- TABLA BACKUP AUTOMÁTICO
+-- =====================================================
+
+CREATE TABLE empleados_backup (
+id INT,
+nombre VARCHAR(50),
+puesto VARCHAR(50),
+salario INT,
+fecha_backup DATETIME
+);
+
+-- =====================================================
+-- TRIGGER DE COPIA AUTOMÁTICA
+-- =====================================================
+
+DELIMITER $$
+
+CREATE TRIGGER backup_empleados
+AFTER INSERT ON empleados
+FOR EACH ROW
+BEGIN
+
+INSERT INTO empleados_backup
+VALUES(
+NEW.id,
+NEW.nombre,
+NEW.puesto,
+NEW.salario,
+NOW()
+);
+
+END$$
+
+DELIMITER ;
+
+-- =====================================================
+-- VISTA CON CIFRADO AES DEL SALARIO
+-- =====================================================
+
+CREATE VIEW empleados_cifrados AS
+SELECT
+nombre,
+puesto,
+TO_BASE64(AES_ENCRYPT(salario,'clave_super_secreta')) AS salario_cifrado
+FROM empleados;
+
+-- =====================================================
+-- VISTA QUE DESCIFRA (solo para administradores)
+-- =====================================================
+
+CREATE VIEW empleados_descifrado AS
+SELECT
+nombre,
+puesto,
+AES_DECRYPT(FROM_BASE64(
+TO_BASE64(AES_ENCRYPT(salario,'clave_super_secreta'))
+),'clave_super_secreta') AS salario
+FROM empleados;
+```
