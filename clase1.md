@@ -423,6 +423,17 @@ SHA2(salario,256) AS salario_hash
 FROM empleados;
 ```
 
+### Consultas para ver tabla con hash y dato copiado
+```MySQL
+SELECT * FROM empleados_seguridad;
+
+INSERT INTO empleados(nombre,puesto,salario)
+VALUES('Luis','Director',90000);
+
+SELECT * FROM empleados_backup;
+```
+
+
 ## Cifrar y descifrar datos en tablas con vistas
 
 ```SQL
@@ -510,4 +521,11 @@ AES_DECRYPT(FROM_BASE64(
 TO_BASE64(AES_ENCRYPT(salario,'clave_super_secreta'))
 ),'clave_super_secreta') AS salario
 FROM empleados;
+```
+
+### Consultas para ver cifrado
+```MySQL
+SELECT * FROM empleados_cifrados;
+
+SELECT * FROM empleados_descifrado;
 ```
