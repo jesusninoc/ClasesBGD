@@ -808,6 +808,12 @@ Ejecutar en terminal:
 docker run -it --rm sequenceiq/hadoop-docker:2.7.1 /etc/bootstrap.sh -bash
 ```
 
+(Para MacOS)
+
+```bash
+docker run -it bde2020/hadoop-base:2.0.0-hadoop3.2.1-java8 /bin/bash
+```
+
 Esto inicia un **contenedor con Hadoop en modo pseudo-distribuido**.
 
 ## 2. Verificar que Hadoop está funcionando
