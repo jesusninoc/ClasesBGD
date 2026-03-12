@@ -1,14 +1,14 @@
 
-- Configuración de MySQL
+## Configuración de MySQL
 ```Bash
 docker run --platform linux/amd64 --name myXampp -p 41061:22 -p 41062:80 -d -v ~/my_web_pages:/www tomsik68/xampp:8
 ```
 
-- PhpMyadmin:
+## PhpMyadmin:
   - http://localhost:41062/phpmyadmin/
   - https://demo.phpmyadmin.net/master-config/public/
 
-- Fichero SQL y consultas
+## Fichero SQL y consultas
 
 ```SQL
 -- =========================================================
@@ -193,7 +193,7 @@ GROUP BY usuario
 HAVING COUNT(*) >= 2;
 ```
 
-- Más consultas
+## Más consultas
 
 ```SQL
 -- =========================================================
@@ -250,9 +250,9 @@ ORDER BY total_mb_movidos DESC;
 
 ---------------
 
-- Control real
+## Control real
 
-  - MySQL oficial
+### MySQL oficial
     
 ```Bash
 docker run --name mysql-demo \
@@ -261,7 +261,7 @@ docker run --name mysql-demo \
 -d mysql:8
 ```
 
-  - Script SQL
+### Script SQL
 
 ```SQL
 -- =====================================================
@@ -334,7 +334,7 @@ END$$
 DELIMITER ;
 ```
 
-  - Consultas de comprobación
+### Consultas de comprobación
 
 ```Bash
 CALL ver_salario('Ana');
