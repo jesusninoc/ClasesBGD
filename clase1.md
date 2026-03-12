@@ -253,6 +253,7 @@ ORDER BY total_mb_movidos DESC;
 - Control real
 
   - MySQL oficial
+    
 ```Bash
 docker run --name mysql-demo \
 -e MYSQL_ROOT_PASSWORD=root \
