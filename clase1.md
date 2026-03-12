@@ -808,7 +808,7 @@ Ejecutar en terminal:
 docker run -it --rm sequenceiq/hadoop-docker:2.7.1 /etc/bootstrap.sh -bash
 ```
 
-(Para MacOS)
+(Para macOS)
 
 ```bash
 docker run -it bde2020/hadoop-base:2.0.0-hadoop3.2.1-java8 /bin/bash
