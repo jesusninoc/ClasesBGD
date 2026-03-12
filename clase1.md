@@ -248,4 +248,95 @@ GROUP BY usuario
 ORDER BY total_mb_movidos DESC;
 ```
 
+---------------
 
+- Control real
+
+  - MySQL oficial
+```Bash
+docker run --name mysql-demo \
+-e MYSQL_ROOT_PASSWORD=root \
+-p 3306:3306 \
+-d mysql:8
+```
+
+  - Script SQL
+
+```SQL
+-- =====================================================
+-- DEMO SEGURIDAD BASE DE DATOS
+-- =====================================================
+
+DROP DATABASE IF EXISTS demo_seguridad;
+CREATE DATABASE demo_seguridad;
+USE demo_seguridad;
+
+-- =====================================================
+-- TABLA EMPLEADOS
+-- =====================================================
+
+CREATE TABLE empleados (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(50),
+puesto VARCHAR(50),
+salario INT
+);
+
+INSERT INTO empleados(nombre,puesto,salario) VALUES
+('Ana','Analista',32000),
+('Carlos','Administrador Sistemas',38000),
+('Marta','Marketing',42000),
+('Luis','Director General',150000);
+
+-- =====================================================
+-- TABLA LOG DE INTENTOS
+-- =====================================================
+
+CREATE TABLE log_accesos_salarios (
+id INT AUTO_INCREMENT PRIMARY KEY,
+usuario_mysql VARCHAR(100),
+fecha DATETIME,
+evento VARCHAR(200)
+);
+
+-- =====================================================
+-- PROCEDIMIENTO CONTROLADO
+-- =====================================================
+
+DELIMITER $$
+
+CREATE PROCEDURE ver_salario(IN nombre_empleado VARCHAR(50))
+BEGIN
+
+IF nombre_empleado = 'Luis' THEN
+
+INSERT INTO log_accesos_salarios(usuario_mysql,fecha,evento)
+VALUES(
+CURRENT_USER(),
+NOW(),
+'Intento de consulta del salario del Director General'
+);
+
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT='ACCESO DENEGADO: salario protegido';
+
+ELSE
+
+SELECT nombre,puesto,salario
+FROM empleados
+WHERE nombre = nombre_empleado;
+
+END IF;
+
+END$$
+
+DELIMITER ;
+```
+
+  - Consultas de comprobación
+
+```Bash
+CALL ver_salario('Ana');
+CALL ver_salario('Luis');
+SELECT * FROM log_accesos_salarios;
+```
