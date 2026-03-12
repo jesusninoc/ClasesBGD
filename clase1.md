@@ -798,3 +798,242 @@ docker rm mongo-demo
 -------------
 -------------
 
+# Demo Hadoop con Docker (MapReduce Examples)
+
+## 1. Arrancar Hadoop con Docker
+
+Ejecutar en terminal:
+
+```bash
+docker run -it --rm sequenceiq/hadoop-docker:2.7.1 /etc/bootstrap.sh -bash
+```
+
+Esto inicia un **contenedor con Hadoop en modo pseudo-distribuido**.
+
+## 2. Verificar que Hadoop está funcionando
+
+Comprobar versión:
+
+```bash
+hadoop version
+```
+
+Comprobar procesos Hadoop:
+
+```bash
+jps
+```
+
+Deberías ver algo parecido a:
+
+```
+NameNode
+DataNode
+SecondaryNameNode
+ResourceManager
+NodeManager
+```
+
+## 3. Crear datos de ejemplo
+
+Crear archivo:
+
+```bash
+nano texto.txt
+```
+
+Contenido:
+
+```
+hola mundo hadoop
+hola docker
+hadoop es big data
+docker y hadoop
+```
+
+Guardar:
+
+```
+CTRL + O
+CTRL + X
+```
+
+## 4. Crear directorio en HDFS
+
+```bash
+hdfs dfs -mkdir /input
+```
+
+## 5. Subir archivo a HDFS (Hadoop Distributed File System)
+
+```bash
+hdfs dfs -put texto.txt /input
+```
+
+Comprobar:
+
+```bash
+hdfs dfs -ls /input
+```
+
+Salida esperada:
+
+```
+/input/texto.txt
+```
+
+## 6. Ejecutar WordCount (MapReduce)
+
+Este ejemplo cuenta cuántas veces aparece cada palabra.
+
+```bash
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples*.jar \
+wordcount /input /output
+```
+
+## 7. Ver resultado
+
+```bash
+hdfs dfs -cat /output/part-r-00000
+```
+
+Resultado esperado:
+
+```
+docker 2
+hadoop 3
+hola 2
+mundo 1
+```
+
+## 8. Ejemplo 2 — Buscar patrones con GREP
+
+Crear archivo:
+
+```bash
+nano logs.txt
+```
+
+Contenido:
+
+```
+login error
+login ok
+error acceso
+ok acceso
+error login
+```
+
+Subir a HDFS:
+
+```bash
+hdfs dfs -put logs.txt /input
+```
+
+Ejecutar grep:
+
+```bash
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples*.jar \
+grep /input /output_grep "error"
+```
+
+Ver resultado:
+
+```bash
+hdfs dfs -cat /output_grep/part-r-00000
+```
+
+## 9. Ejemplo 3 — Ordenar datos (Sort)
+
+Crear archivo:
+
+```bash
+echo -e "5\n2\n9\n1\n7" > numeros.txt
+```
+
+Subir:
+
+```bash
+hdfs dfs -put numeros.txt /input
+```
+
+Ejecutar:
+
+```bash
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples*.jar \
+sort /input /output_sort
+```
+
+Ver resultado:
+
+```bash
+hdfs dfs -cat /output_sort/part-r-00000
+```
+
+Resultado:
+
+```
+1
+2
+5
+7
+9
+```
+
+## 10. Ejemplo 4 — Calcular π con MapReduce
+
+Este ejemplo usa computación distribuida para estimar π.
+
+```bash
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples*.jar \
+pi 2 1000
+```
+
+Resultado típico:
+
+```
+Estimated value of Pi is 3.1416
+```
+
+## 11. Ejemplo 5 — Generar datos aleatorios
+
+```bash
+hadoop jar /usr/local/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples*.jar \
+randomwriter /randomdata
+```
+
+Esto genera grandes cantidades de datos en HDFS.
+
+## 12. Limpiar resultados anteriores
+
+Hadoop no permite sobrescribir directorios de salida.
+
+Antes de ejecutar otro job:
+
+```bash
+hdfs dfs -rm -r /output
+```
+
+## 13. Listar archivos en HDFS
+
+```bash
+hdfs dfs -ls /
+```
+
+## Arquitectura del proceso
+
+Flujo de procesamiento:
+
+```
+Datos → HDFS → MAP → Shuffle → REDUCE → Resultado
+```
+
+## Detener Hadoop
+
+Salir del contenedor:
+
+```bash
+exit
+```
+
+Al usar `--rm`, el contenedor se eliminará automáticamente.
