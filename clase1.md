@@ -991,6 +991,13 @@ cat salida_std/part-r-00000
 # 11. Ejemplo — Histograma de palabras
 
 ```bash
+echo -e "hola mundo hadoop
+hola docker
+hadoop es big data
+docker y hadoop" > texto.txt
+```
+
+```bash
 hadoop jar $JAR aggregatewordhist texto.txt salida_hist
 ```
 
