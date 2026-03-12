@@ -648,3 +648,153 @@ WHERE nombre=''
 UNION
 SELECT nombre,puesto,salario FROM salarios_secretos;
 ```
+
+---------------
+---------------
+
+# Mongo
+
+## 1. Arrancar MongoDB con Docker
+
+Ejecutar en terminal:
+
+```bash
+docker run -d \
+--name mongo-demo \
+-p 27017:27017 \
+mongo:7
+```
+
+## 2. Entrar en la consola de MongoDB
+
+```bash
+docker exec -it mongo-demo mongosh
+```
+
+Verás algo así:
+
+```
+test>
+```
+
+## 3. Crear una base de datos
+
+```javascript
+use seguridad_demo
+```
+
+## 4. Insertar un documento JSON
+
+```javascript
+db.eventos.insertOne({
+  usuario: "ana",
+  evento: "login",
+  ip: "192.168.1.20",
+  fecha: "2026-03-12",
+  dispositivo: {
+    tipo: "portatil",
+    sistema: "Windows"
+  }
+})
+```
+
+Resultado:
+
+```
+acknowledged: true
+```
+
+## 5. Consultar los documentos
+
+```javascript
+db.eventos.find()
+```
+
+Resultado:
+
+```json
+{
+  _id: ObjectId("..."),
+  usuario: "ana",
+  evento: "login",
+  ip: "192.168.1.20",
+  fecha: "2026-03-12",
+  dispositivo: {
+    tipo: "portatil",
+    sistema: "Windows"
+  }
+}
+```
+
+## 6. Insertar un evento de seguridad
+
+```javascript
+db.eventos.insertOne({
+  usuario: "admin",
+  evento: "login_fallido",
+  ip: "203.0.113.45",
+  intentos: 5
+})
+```
+
+## 7. Buscar eventos sospechosos
+
+```javascript
+db.eventos.find({ evento: "login_fallido" })
+```
+
+## 8. Mostrar los resultados formateados
+
+```javascript
+db.eventos.find().pretty()
+```
+
+### Ejemplo de documento JSON en NoSQL
+
+```json
+{
+  "usuario": "admin",
+  "evento": "login_fallido",
+  "ip": "203.0.113.45",
+  "intentos": 5
+}
+```
+
+---
+
+## Comparación SQL vs NoSQL
+
+### SQL
+
+```
+TABLA EVENTOS
+usuario | evento | ip | fecha
+```
+
+### NoSQL (MongoDB)
+
+```json
+{
+  "usuario": "ana",
+  "evento": "login",
+  "ip": "192.168.1.20"
+}
+```
+
+--------
+
+## Detener el contenedor
+
+```bash
+docker stop mongo-demo
+```
+
+## Eliminar el contenedor
+
+```bash
+docker rm mongo-demo
+```
+
+-------------
+-------------
+
