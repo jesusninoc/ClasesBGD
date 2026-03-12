@@ -838,8 +838,6 @@ Hadoop 3.4.3
 
 # 3. Localizar el JAR de ejemplos
 
-Las imágenes Docker pueden cambiar la ruta del jar, por eso lo localizamos automáticamente.
-
 ```bash
 find / -name "hadoop-mapreduce-examples*.jar"
 ```
@@ -867,23 +865,16 @@ echo $JAR
 # 4. Crear datos de ejemplo
 
 ```bash
-nano texto.txt
-```
-
-Contenido:
-
-```
-hola mundo hadoop
+echo -e "hola mundo hadoop
 hola docker
 hadoop es big data
-docker y hadoop
+docker y hadoop" > texto.txt
 ```
 
-Guardar:
+Ver archivo:
 
-```
-CTRL + O
-CTRL + X
+```bash
+cat texto.txt
 ```
 
 ---
@@ -920,17 +911,11 @@ y 1
 Crear archivo:
 
 ```bash
-nano logs.txt
-```
-
-Contenido:
-
-```
-login error
+echo -e "login error
 login ok
 error acceso
 ok acceso
-error login
+error login" > logs.txt
 ```
 
 Ejecutar:
@@ -939,7 +924,7 @@ Ejecutar:
 hadoop jar $JAR grep logs.txt salida_grep "error"
 ```
 
-Resultado:
+Ver resultado:
 
 ```bash
 cat salida_grep/part-r-00000
@@ -989,7 +974,7 @@ cat salida_median/part-r-00000
 
 ---
 
-# 10. Ejemplo — Desviación estándar
+# 10. Ejemplo — Desviación estándar de palabras
 
 ```bash
 hadoop jar $JAR wordstandarddeviation texto.txt salida_std
@@ -1022,14 +1007,8 @@ cat salida_hist/part-r-00000
 Crear segundo archivo:
 
 ```bash
-nano texto2.txt
-```
-
-Contenido:
-
-```
-big data hadoop
-docker hadoop cluster
+echo -e "big data hadoop
+docker hadoop cluster" > texto2.txt
 ```
 
 Ejecutar:
@@ -1046,7 +1025,7 @@ cat salida_multi/part-r-00000
 
 ---
 
-# 13. Ejemplo — Generar datos aleatorios (Big Data)
+# 13. Ejemplo — Generar datos aleatorios
 
 ```bash
 hadoop jar $JAR randomwriter randomdata
@@ -1072,7 +1051,7 @@ hadoop jar $JAR teragen 10000 teradata
 
 ---
 
-# 16. Ejemplo — Ejecutar TeraSort
+# 16. Ejecutar TeraSort
 
 ```bash
 hadoop jar $JAR terasort teradata terasort_output
@@ -1080,7 +1059,7 @@ hadoop jar $JAR terasort teradata terasort_output
 
 ---
 
-# 17. Ejemplo — Validar resultado TeraSort
+# 17. Validar resultado TeraSort
 
 ```bash
 hadoop jar $JAR teravalidate terasort_output teravalidate_output
@@ -1088,23 +1067,17 @@ hadoop jar $JAR teravalidate terasort_output teravalidate_output
 
 ---
 
-# 18. Ejemplo — Análisis de IPs en logs web
+# 18. Ejemplo — Analizar IPs en logs
 
-Crear logs:
+Crear archivo:
 
 ```bash
-nano web_logs.txt
-```
-
-Contenido:
-
-```
-192.168.1.10 login
+echo -e "192.168.1.10 login
 192.168.1.11 login
 192.168.1.10 login
 192.168.1.12 login
 192.168.1.10 login
-192.168.1.11 login
+192.168.1.11 login" > web_logs.txt
 ```
 
 Ejecutar:
@@ -1129,27 +1102,6 @@ Esto permite detectar **IPs con más actividad**.
 hadoop jar $JAR
 ```
 
-Ejemplos incluidos:
-
-```
-aggregatewordcount
-aggregatewordhist
-grep
-join
-multifilewc
-pi
-randomwriter
-randomtextwriter
-sort
-terasort
-teragen
-teravalidate
-wordcount
-wordmean
-wordmedian
-wordstandarddeviation
-```
-
 ---
 
 # 20. Limpiar resultados
@@ -1170,9 +1122,9 @@ Explicación:
 
 | Fase | Descripción |
 |-----|-------------|
-MAP | genera pares clave-valor |
-Shuffle | agrupa claves iguales |
-REDUCE | combina resultados |
+| MAP | genera pares clave-valor |
+| Shuffle | agrupa claves iguales |
+| REDUCE | combina resultados |
 
 ---
 
