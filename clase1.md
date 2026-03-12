@@ -185,3 +185,60 @@ WHERE nivel_riesgo = 'alto'
 GROUP BY usuario
 HAVING COUNT(*) >= 2;
 ```
+
+- Más consultas
+
+```SQL
+-- =========================================================
+-- CONSULTAS CLAVE PARA CLASE
+-- Ejemplos sencillos de SQL aplicados a ciberseguridad
+-- =========================================================
+
+-- =========================================================
+-- A) IDENTIFICAR IPs CON MUCHOS INTENTOS FALLIDOS
+-- =========================================================
+-- Esta consulta agrupa los intentos fallidos por dirección IP
+-- y muestra solo aquellas IPs que han acumulado 5 o más intentos.
+-- Esto puede indicar un posible ataque de fuerza bruta.
+
+SELECT 
+    ip_origen,
+    SUM(intentos_fallidos) AS total_intentos_fallidos
+FROM intentos_fallidos
+GROUP BY ip_origen
+HAVING SUM(intentos_fallidos) >= 5;
+
+
+
+-- =========================================================
+-- B) DETECTAR CONEXIONES EN HORARIOS INUSUALES
+-- =========================================================
+-- Se muestran accesos que ocurren entre las 00:00 y las 05:59.
+-- Muchas organizaciones consideran estas horas sospechosas
+-- si el usuario normalmente trabaja en horario laboral.
+
+SELECT 
+    usuario,
+    ip_origen,
+    fecha_hora
+FROM horarios_inusuales
+WHERE HOUR(fecha_hora) BETWEEN 0 AND 5;
+
+
+
+-- =========================================================
+-- C) USUARIO QUE MÁS DATOS HA MOVIDO
+-- =========================================================
+-- Se calcula el volumen total de datos transferidos por usuario.
+-- Esto permite detectar posibles fugas de información
+-- o descargas masivas de archivos sensibles.
+
+SELECT
+    usuario,
+    SUM(volumen_mb) AS total_mb_movidos
+FROM fraude_fuga_informacion
+GROUP BY usuario
+ORDER BY total_mb_movidos DESC;
+```
+
+
