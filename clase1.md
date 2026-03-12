@@ -1,5 +1,9 @@
 
-- 
+- Configuración de MySQL
+```Bash
+docker run --platform linux/amd64 --name myXampp -p 41061:22 -p 41062:80 -d -v ~/my_web_pages:/www tomsik68/xampp:8
+```
+  - http://localhost:41062/phpmyadmin/
 
 - Fichero SQL y consultas
 
