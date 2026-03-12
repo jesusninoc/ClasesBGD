@@ -988,28 +988,7 @@ cat salida_std/part-r-00000
 
 ---
 
-# 11. Ejemplo — Histograma de palabras
-
-```bash
-echo -e "hola mundo hadoop
-hola docker
-hadoop es big data
-docker y hadoop" > texto.txt
-```
-
-```bash
-hadoop jar $JAR aggregatewordhist texto.txt salida_hist
-```
-
-Resultado:
-
-```bash
-cat salida_hist/part-r-00000
-```
-
----
-
-# 12. Ejemplo — WordCount con múltiples archivos
+# 11. Ejemplo — WordCount con múltiples archivos
 
 Crear segundo archivo:
 
@@ -1032,7 +1011,7 @@ cat salida_multi/part-r-00000
 
 ---
 
-# 13. Ejemplo — Generar datos aleatorios
+# 12. Ejemplo — Generar datos aleatorios
 
 ```bash
 hadoop jar $JAR randomwriter randomdata
@@ -1042,7 +1021,7 @@ Esto genera datos aleatorios para pruebas.
 
 ---
 
-# 14. Ejemplo — Generar texto aleatorio
+# 13. Ejemplo — Generar texto aleatorio
 
 ```bash
 hadoop jar $JAR randomtextwriter randomtext
@@ -1050,7 +1029,7 @@ hadoop jar $JAR randomtextwriter randomtext
 
 ---
 
-# 15. Ejemplo — Generar dataset para TeraSort
+# 14. Ejemplo — Generar dataset para TeraSort
 
 ```bash
 hadoop jar $JAR teragen 10000 teradata
@@ -1058,7 +1037,7 @@ hadoop jar $JAR teragen 10000 teradata
 
 ---
 
-# 16. Ejecutar TeraSort
+# 15. Ejecutar TeraSort
 
 ```bash
 hadoop jar $JAR terasort teradata terasort_output
@@ -1066,7 +1045,7 @@ hadoop jar $JAR terasort teradata terasort_output
 
 ---
 
-# 17. Validar resultado TeraSort
+# 16. Validar resultado TeraSort
 
 ```bash
 hadoop jar $JAR teravalidate terasort_output teravalidate_output
@@ -1074,7 +1053,7 @@ hadoop jar $JAR teravalidate terasort_output teravalidate_output
 
 ---
 
-# 18. Ejemplo — Analizar IPs en logs
+# 17. Ejemplo — Analizar IPs en logs
 
 Crear archivo:
 
@@ -1103,7 +1082,7 @@ Esto permite detectar **IPs con más actividad**.
 
 ---
 
-# 19. Ver todos los ejemplos disponibles
+# 18. Ver todos los ejemplos disponibles
 
 ```bash
 hadoop jar $JAR
@@ -1111,7 +1090,7 @@ hadoop jar $JAR
 
 ---
 
-# 20. Limpiar resultados
+# 19. Limpiar resultados
 
 ```bash
 rm -r salida*
