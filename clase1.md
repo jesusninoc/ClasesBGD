@@ -1,3 +1,5 @@
+# Introducción MySQL
+
 ## Configuración de MySQL
 ```Bash
 docker run --platform linux/amd64 --name myXampp -p 41061:22 -p 41062:80 -d -v ~/my_web_pages:/www tomsik68/xampp:8
@@ -192,7 +194,7 @@ GROUP BY usuario
 HAVING COUNT(*) >= 2;
 ```
 
-## Más consultas
+## Consultas
 
 ```SQL
 -- =========================================================
@@ -249,6 +251,8 @@ ORDER BY total_mb_movidos DESC;
 
 ---------------
 ---------------
+
+# Auditoría
 
 ## Control real
 
@@ -344,6 +348,8 @@ SELECT * FROM log_accesos_salarios;
 
 ---------------
 ---------------
+
+# Hash, copia de seguridad y cifrado
 
 ## Hash y copia de seguridad
 
@@ -524,6 +530,7 @@ FROM empleados;
 ```
 
 ### Consultas para ver cifrado
+
 ```MySQL
 SELECT * FROM empleados_cifrados;
 
