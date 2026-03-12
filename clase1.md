@@ -850,10 +850,16 @@ Normalmente aparecerá algo así:
 /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.4.3.jar
 ```
 
-Guardamos la ruta en una variable:
+Guardar la ruta en una variable:
 
 ```bash
-JAR=$(find /opt -name "hadoop-mapreduce-examples*.jar")
+JAR=$(find /opt -name "hadoop-mapreduce-examples*.jar" | grep -v sources)
+```
+
+Comprobar:
+
+```bash
+echo $JAR
 ```
 
 ---
@@ -884,15 +890,11 @@ CTRL + X
 
 # 5. Ejecutar WordCount (MapReduce)
 
-Este ejemplo cuenta cuántas veces aparece cada palabra.
-
 ```bash
 hadoop jar $JAR wordcount texto.txt salida
 ```
 
----
-
-# 6. Ver resultado
+Ver resultado:
 
 ```bash
 cat salida/part-r-00000
@@ -913,7 +915,7 @@ y 1
 
 ---
 
-# 7. Ejemplo 2 — Buscar patrones con GREP
+# 6. Ejemplo — GREP (buscar patrones)
 
 Crear archivo:
 
@@ -931,63 +933,21 @@ ok acceso
 error login
 ```
 
-Ejecutar grep:
+Ejecutar:
 
 ```bash
 hadoop jar $JAR grep logs.txt salida_grep "error"
 ```
 
-Ver resultado:
+Resultado:
 
 ```bash
 cat salida_grep/part-r-00000
 ```
 
-Resultado esperado:
-
-```
-error 3
-```
-
-Este ejemplo es útil para **analizar logs de seguridad**.
-
 ---
 
-# 8. Ejemplo 3 — Ordenar datos (Sort)
-
-Crear archivo:
-
-```bash
-echo -e "5\n2\n9\n1\n7" > numeros.txt
-```
-
-Ejecutar sort:
-
-```bash
-hadoop jar $JAR sort numeros.txt salida_sort
-```
-
-Ver resultado:
-
-```bash
-cat salida_sort/part-r-00000
-```
-
-Resultado esperado:
-
-```
-1
-2
-5
-7
-9
-```
-
----
-
-# 9. Ejemplo 4 — Calcular π con MapReduce
-
-Este ejemplo usa computación distribuida para estimar π.
+# 7. Ejemplo — Calcular π con MapReduce
 
 ```bash
 hadoop jar $JAR pi 2 1000
@@ -1001,21 +961,198 @@ Estimated value of Pi is 3.1416
 
 ---
 
-# 10. Ejemplo 5 — Generar datos aleatorios
+# 8. Ejemplo — Media de longitud de palabras
 
-Este ejemplo genera grandes cantidades de datos.
+```bash
+hadoop jar $JAR wordmean texto.txt salida_mean
+```
+
+Resultado:
+
+```bash
+cat salida_mean/part-r-00000
+```
+
+---
+
+# 9. Ejemplo — Mediana de longitud de palabras
+
+```bash
+hadoop jar $JAR wordmedian texto.txt salida_median
+```
+
+Resultado:
+
+```bash
+cat salida_median/part-r-00000
+```
+
+---
+
+# 10. Ejemplo — Desviación estándar
+
+```bash
+hadoop jar $JAR wordstandarddeviation texto.txt salida_std
+```
+
+Resultado:
+
+```bash
+cat salida_std/part-r-00000
+```
+
+---
+
+# 11. Ejemplo — Histograma de palabras
+
+```bash
+hadoop jar $JAR aggregatewordhist texto.txt salida_hist
+```
+
+Resultado:
+
+```bash
+cat salida_hist/part-r-00000
+```
+
+---
+
+# 12. Ejemplo — WordCount con múltiples archivos
+
+Crear segundo archivo:
+
+```bash
+nano texto2.txt
+```
+
+Contenido:
+
+```
+big data hadoop
+docker hadoop cluster
+```
+
+Ejecutar:
+
+```bash
+hadoop jar $JAR multifilewc texto.txt texto2.txt salida_multi
+```
+
+Resultado:
+
+```bash
+cat salida_multi/part-r-00000
+```
+
+---
+
+# 13. Ejemplo — Generar datos aleatorios (Big Data)
 
 ```bash
 hadoop jar $JAR randomwriter randomdata
 ```
 
+Esto genera datos aleatorios para pruebas.
+
 ---
 
-# 11. Limpiar resultados anteriores
+# 14. Ejemplo — Generar texto aleatorio
 
-Hadoop no permite sobrescribir directorios de salida.
+```bash
+hadoop jar $JAR randomtextwriter randomtext
+```
 
-Antes de ejecutar otro job:
+---
+
+# 15. Ejemplo — Generar dataset para TeraSort
+
+```bash
+hadoop jar $JAR teragen 10000 teradata
+```
+
+---
+
+# 16. Ejemplo — Ejecutar TeraSort
+
+```bash
+hadoop jar $JAR terasort teradata terasort_output
+```
+
+---
+
+# 17. Ejemplo — Validar resultado TeraSort
+
+```bash
+hadoop jar $JAR teravalidate terasort_output teravalidate_output
+```
+
+---
+
+# 18. Ejemplo — Análisis de IPs en logs web
+
+Crear logs:
+
+```bash
+nano web_logs.txt
+```
+
+Contenido:
+
+```
+192.168.1.10 login
+192.168.1.11 login
+192.168.1.10 login
+192.168.1.12 login
+192.168.1.10 login
+192.168.1.11 login
+```
+
+Ejecutar:
+
+```bash
+hadoop jar $JAR wordcount web_logs.txt salida_ips
+```
+
+Resultado:
+
+```bash
+cat salida_ips/part-r-00000
+```
+
+Esto permite detectar **IPs con más actividad**.
+
+---
+
+# 19. Ver todos los ejemplos disponibles
+
+```bash
+hadoop jar $JAR
+```
+
+Ejemplos incluidos:
+
+```
+aggregatewordcount
+aggregatewordhist
+grep
+join
+multifilewc
+pi
+randomwriter
+randomtextwriter
+sort
+terasort
+teragen
+teravalidate
+wordcount
+wordmean
+wordmedian
+wordstandarddeviation
+```
+
+---
+
+# 20. Limpiar resultados
 
 ```bash
 rm -r salida*
@@ -1023,9 +1160,7 @@ rm -r salida*
 
 ---
 
-# Arquitectura del proceso
-
-Flujo de procesamiento MapReduce:
+# Arquitectura MapReduce
 
 ```
 Datos → MAP → Shuffle → REDUCE → Resultado
@@ -1033,11 +1168,11 @@ Datos → MAP → Shuffle → REDUCE → Resultado
 
 Explicación:
 
-| Fase | Qué ocurre |
+| Fase | Descripción |
 |-----|-------------|
-MAP | se generan pares clave-valor |
-Shuffle | Hadoop agrupa claves iguales |
-REDUCE | se combinan los resultados |
+MAP | genera pares clave-valor |
+Shuffle | agrupa claves iguales |
+REDUCE | combina resultados |
 
 ---
 
