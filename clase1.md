@@ -536,3 +536,115 @@ SELECT * FROM empleados_cifrados;
 
 SELECT * FROM empleados_descifrado;
 ```
+
+---------------
+---------------
+
+# Inyección SQL
+
+## Parte 1 (normal)
+
+```SQL
+-- =====================================================
+-- DEMO INYECCIÓN SQL PARA VER SALARIOS
+-- =====================================================
+
+DROP DATABASE IF EXISTS demo_inyeccion_salarios;
+CREATE DATABASE demo_inyeccion_salarios;
+USE demo_inyeccion_salarios;
+
+-- =====================================================
+-- TABLA EMPLEADOS
+-- =====================================================
+
+CREATE TABLE empleados (
+id INT AUTO_INCREMENT PRIMARY KEY,
+usuario VARCHAR(50),
+password VARCHAR(50),
+puesto VARCHAR(50),
+salario INT
+);
+
+INSERT INTO empleados(usuario,password,puesto,salario) VALUES
+('ana','1234','Analista',32000),
+('carlos','abcd','Administrador Sistemas',38000),
+('marta','pass','Marketing',42000),
+('director','supersecret','Director General',150000);
+```
+
+### Consultas
+```SQL
+SELECT usuario, puesto, salario
+FROM empleados
+WHERE usuario='ana'
+AND password='1234';
+
+SELECT usuario, puesto, salario
+FROM empleados
+WHERE usuario='ana'
+AND password='xxxx';
+
+SELECT usuario, puesto, salario
+FROM empleados
+WHERE usuario='' OR '1'='1';
+```
+
+## Parte 2 (union)
+
+## Parte 1 (normal)
+
+```SQL
+-- =====================================================
+-- DEMO INYECCIÓN SQL CON UNION
+-- =====================================================
+
+DROP DATABASE IF EXISTS demo_union_injection;
+CREATE DATABASE demo_union_injection;
+USE demo_union_injection;
+
+-- =====================================================
+-- TABLA PUBLICA (lo que la aplicación muestra)
+-- =====================================================
+
+CREATE TABLE empleados_publicos (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(50),
+departamento VARCHAR(50),
+email VARCHAR(100)
+);
+
+INSERT INTO empleados_publicos(nombre,departamento,email) VALUES
+('Ana','IT','ana@empresa.com'),
+('Carlos','Marketing','carlos@empresa.com'),
+('Marta','Ventas','marta@empresa.com');
+
+-- =====================================================
+-- TABLA SECRETA (no debería verse)
+-- =====================================================
+
+CREATE TABLE salarios_secretos (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nombre VARCHAR(50),
+puesto VARCHAR(50),
+salario INT
+);
+
+INSERT INTO salarios_secretos(nombre,puesto,salario) VALUES
+('Ana','Analista',32000),
+('Carlos','Administrador Sistemas',38000),
+('Marta','Responsable Marketing',42000),
+('Luis','Director General',150000);
+```
+
+### Consultas
+```SQL
+SELECT nombre, departamento, email
+FROM empleados_publicos
+WHERE nombre='Ana';
+
+SELECT nombre, departamento, email
+FROM empleados_publicos
+WHERE nombre=''
+UNION
+SELECT nombre,puesto,salario FROM salarios_secretos;
+```
