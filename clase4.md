@@ -438,3 +438,9 @@ En entornos Big Data es habitual combinar:
 Spark → procesamiento de datos
 TensorFlow / PyTorch → deep learning
 ```
+
+--------
+--------
+
+# Reconocer emociones en imágenes de rostros
+* https://www.jesusninoc.com/04/12/reconocer-emociones-de-las-caras-de-las-personas-que-hay-en-una-imagen-utilizando-el-modelo-fer-facial-expression-recognition/
