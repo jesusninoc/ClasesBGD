@@ -1,3 +1,57 @@
+# Anonimización y seudonimización
+
+----------
+----------
+
+# Auditoría
+
+----------
+----------
+
+# Blockchain para la trazabilidad y el control de datos
+
+----------
+----------
+
+#  Cifrado homomórfico para el análisis de datos sin desencriptar
+
+----------
+----------
+
+#  Inteligencia artificial para la detección de anomalías y riesgos de privacidad
+
+----------
+----------
+
+# Scraping
+
+Recopilación en contextos digitales
+Plataformas web y redes sociales
+
+----------
+----------
+
+# Python + pandas
+
+----------
+----------
+
+# Herramientas básicas de descripción estadística
+- Medidas de tendencia central: media, mediana, moda.
+- Dispersión: rango, desviación estándar, varianza.
+- Forma y distribución: asimetría, curtosis.
+- Matrices de correlación, para medir fuerzas y direcciones de asociación.
+- Diagramas de dispersión, que revelan patrones lineales o no lineales.
+- Mapas de calor, que ayudan a visualizar agrupaciones o tendencias.
+
+----------
+----------
+
+# Jupyter
+
+-----------
+-----------
+
 # Detección de amenazas en logs web con Apache Spark
 
 Ejemplo práctico de **análisis de seguridad usando Apache Spark** sin scripts externos.  
@@ -32,7 +86,7 @@ Entrar en el shell interactivo de Spark:
 
 Salir temporalmente del shell de Spark o abrir otra terminal en el contenedor.
 
-Contenido:
+Crear el archivo con el siguiente script:
 
 ```bash
 echo '#!/bin/bash
@@ -210,61 +264,7 @@ Esto permite identificar posibles atacantes.
 ----------
 ----------
 
-# Anonimización y seudonimización
-
-----------
-----------
-
-# Auditoría
-
-----------
-----------
-
-# Blockchain para la trazabilidad y el control de datos
-
-----------
-----------
-
-#  Cifrado homomórfico para el análisis de datos sin desencriptar
-
-----------
-----------
-
-#  Inteligencia artificial para la detección de anomalías y riesgos de privacidad
-
-----------
-----------
-
-# Scraping
-
-Recopilación en contextos digitales
-Plataformas web y redes sociales
-
-----------
-----------
-
-# Python + pandas
-
-----------
-----------
-
-# Herramientas básicas de descripción estadística
-- Medidas de tendencia central: media, mediana, moda.
-- Dispersión: rango, desviación estándar, varianza.
-- Forma y distribución: asimetría, curtosis.
-- Matrices de correlación, para medir fuerzas y direcciones de asociación.
-- Diagramas de dispersión, que revelan patrones lineales o no lineales.
-- Mapas de calor, que ayudan a visualizar agrupaciones o tendencias.
-
-----------
-----------
-
-# Jupyter
-
------------
------------
-
-# 💳 Detección de transacciones sospechosas con Apache Spark (laboratorio con 200 registros)
+# Detección de transacciones sospechosas con Apache Spark (laboratorio con 200 registros)
 
 Ejemplo práctico de **detección de fraude financiero usando Apache Spark** sin escribir scripts complejos.
 
@@ -283,13 +283,13 @@ El laboratorio detecta:
 # 1. Arrancar Spark con Docker
 
 ```bash
-docker run -it --rm -p 4040:4040 bitnami/spark:latest bash
+docker run -it --rm -p 4040:4040 apache/spark:latest bash
 ```
 
 Entrar en el shell interactivo de Spark:
 
 ```bash
-spark-shell
+/opt/spark/bin/spark-shell
 ```
 
 ---
@@ -299,14 +299,7 @@ spark-shell
 Crear script generador:
 
 ```bash
-nano generar_transacciones.sh
-```
-
-Contenido:
-
-```bash
-#!/bin/bash
-
+echo '#!/bin/bash
 rm -f transacciones.csv
 
 for i in {1..200}
@@ -319,7 +312,7 @@ hora=$((RANDOM%24))
 
 echo "$cuenta,$destino,$importe,$hora" >> transacciones.csv
 
-done
+done' > generar_transacciones.sh
 ```
 
 Ejecutar:
@@ -505,7 +498,7 @@ Esto detecta cuentas con:
 ------------
 ------------
 
-# 🧑‍💻 Perfilado de comportamiento de usuarios para detectar amenazas internas con Apache Spark
+# Perfilado de comportamiento de usuarios para detectar amenazas internas con Apache Spark
 
 Laboratorio práctico de **detección de amenazas internas (insider threats)** mediante análisis de comportamiento de usuarios.
 
@@ -524,30 +517,21 @@ Se detectarán comportamientos sospechosos como:
 # 1. Arrancar Spark con Docker
 
 ```bash
-docker run -it --rm -p 4040:4040 bitnami/spark:latest bash
+docker run -it --rm -p 4040:4040 apache/spark:latest bash
 ```
 
-Entrar en Spark:
+Entrar en el shell interactivo de Spark:
 
 ```bash
-spark-shell
+/opt/spark/bin/spark-shell
 ```
 
 ---
 
 # 2. Generar 200 eventos de actividad
 
-Crear script:
-
 ```bash
-nano generar_actividad.sh
-```
-
-Contenido:
-
-```bash
-#!/bin/bash
-
+echo '#!/bin/bash
 rm -f actividad_usuarios.csv
 
 usuarios=("ana" "luis" "marta" "carlos" "elena" "admin")
@@ -563,7 +547,7 @@ archivo="file$((RANDOM%20+1))"
 
 echo "$user,$accion,$archivo,$hora" >> actividad_usuarios.csv
 
-done
+done' > generar_actividad.sh
 ```
 
 Ejecutar:
