@@ -23,7 +23,7 @@ docker run -it --rm -p 4040:4040 apache/spark:latest bash
 Entrar en el shell interactivo de Spark:
 
 ```bash
-spark-shell
+/opt/spark/bin/spark-shell
 ```
 
 ---
