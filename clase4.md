@@ -229,3 +229,212 @@ Este tipo de análisis se utiliza en:
 ```
 logs → Kafka → Spark Streaming → detección de anomalías → alertas
 ```
+
+-----------------
+-----------------
+
+# Detección de patrones con redes neuronales usando Apache Spark
+
+Ejemplo práctico de **uso de redes neuronales para detectar patrones en datos** usando **Apache Spark MLlib**.
+
+Las redes neuronales son modelos inspirados en el funcionamiento del cerebro humano que permiten aprender relaciones complejas entre datos.
+
+En este laboratorio se simularán **registros de actividad de usuarios** y se entrenará una **red neuronal simple** para clasificar comportamientos normales y anómalos.
+
+---
+
+# 1. Arrancar Apache Spark con Docker
+
+Ejecutar en terminal:
+
+```bash
+docker run -it --rm -p 4040:4040 apache/spark:latest bash
+```
+
+Entrar en Spark:
+
+```bash
+/opt/spark/bin/spark-shell
+```
+
+---
+
+# 2. Generar un dataset de ejemplo
+
+Crear archivo de datos:
+
+```bash
+echo "" > activity_nn.csv
+```
+
+Generar datos simulados:
+
+```bash
+for i in {1..200}
+do
+  accesses=$((RANDOM%6+1))
+  failed=$((RANDOM%2))
+  hour=$((RANDOM%24))
+
+  label=0
+
+  echo "$accesses,$failed,$hour,$label" >> activity_nn.csv
+done
+```
+
+Añadir casos anómalos:
+
+```bash
+echo "40,15,3,1" >> activity_nn.csv
+echo "50,20,2,1" >> activity_nn.csv
+echo "35,18,4,1" >> activity_nn.csv
+```
+
+Columnas:
+
+```
+accesos,intentos_fallidos,hora,label
+```
+
+---
+
+# 3. Cargar datos en Spark
+
+Dentro de `spark-shell`:
+
+```scala
+val data = spark.read
+  .option("inferSchema","true")
+  .csv("activity_nn.csv")
+  .toDF("accesses","failed","hour","label")
+
+data.show()
+```
+
+---
+
+# 4. Preparar los datos
+
+Convertir variables en un vector de características.
+
+```scala
+import org.apache.spark.ml.feature.VectorAssembler
+
+val assembler = new VectorAssembler()
+  .setInputCols(Array("accesses","failed","hour"))
+  .setOutputCol("features")
+
+val dataset = assembler.transform(data)
+```
+
+---
+
+# 5. Crear una red neuronal
+
+Spark incluye **Multilayer Perceptron**, una red neuronal simple.
+
+Importar librería:
+
+```scala
+import org.apache.spark.ml.classification.MultilayerPerceptronClassifier
+```
+
+Definir arquitectura de la red:
+
+```scala
+val layers = Array[Int](3, 5, 4, 2)
+```
+
+Explicación:
+
+- 3 neuronas de entrada (accesos, fallos, hora)
+- 2 capas ocultas
+- 2 clases de salida (normal / anómalo)
+
+Crear modelo:
+
+```scala
+val trainer = new MultilayerPerceptronClassifier()
+  .setLayers(layers)
+  .setLabelCol("label")
+  .setFeaturesCol("features")
+  .setMaxIter(100)
+```
+
+---
+
+# 6. Entrenar el modelo
+
+```scala
+val model = trainer.fit(dataset)
+```
+
+---
+
+# 7. Realizar predicciones
+
+```scala
+val result = model.transform(dataset)
+
+result.select("accesses","failed","hour","prediction").show()
+```
+
+Ejemplo de salida:
+
+```
+accesses failed hour prediction
+3       0      10   0
+2       1      14   0
+40      15     3    1
+50      20     2    1
+```
+
+---
+
+# 8. Qué hace la red neuronal
+
+La red aprende patrones como:
+
+- accesos normales
+- pocos intentos fallidos
+- horarios habituales
+
+Cuando detecta valores **muy diferentes**, los clasifica como anomalías.
+
+---
+
+# 9. Aplicaciones reales
+
+Las redes neuronales se utilizan para:
+
+- detección de fraude financiero
+- detección de intrusiones
+- reconocimiento de imágenes
+- análisis de voz
+- clasificación de comportamiento de usuarios
+
+---
+
+# 10. Relación con Deep Learning
+
+El **deep learning** es una evolución de las redes neuronales donde se utilizan muchas capas ocultas.
+
+Ejemplos:
+
+- redes convolucionales (CNN)
+- redes recurrentes (RNN)
+- transformers
+
+Estas arquitecturas permiten analizar:
+
+- imágenes
+- vídeo
+- audio
+- lenguaje natural
+
+En entornos Big Data es habitual combinar:
+
+```
+Spark → procesamiento de datos
+TensorFlow / PyTorch → deep learning
+```
