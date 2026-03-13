@@ -17,7 +17,7 @@ Se detectarán:
 # 1. Arrancar Spark con Docker
 
 ```bash
-docker run -it --rm -p 4040:4040 bitnami/spark:latest bash
+docker run -it --rm -p 4040:4040 apache/spark:latest bash
 ```
 
 Entrar en el shell interactivo de Spark:
