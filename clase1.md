@@ -1,3 +1,11 @@
+# Herramientas
+* https://idx.google.com/u/5/
+* https://colab.research.google.com/
+* Extensiones https://github.com/jesusninoc/Extension_Chrome_Ollama_Assistant
+
+-------------
+-------------
+
 # Introducción MySQL
 
 ## Configuración de MySQL
