@@ -107,3 +107,73 @@ async def scan():
 
 asyncio.run(scan())
 ```
+
+-------------
+-------------
+
+# Dispositivos cercanos (vecinos, gatos)
+```Python
+import asyncio
+from bleak import BleakScanner
+
+seen_devices = set()
+
+
+def estimate_people(num_devices):
+
+    if num_devices == 0:
+        return "🟢 Parece que estás solo"
+
+    if num_devices <= 2:
+        return "🟡 Puede haber una persona cerca"
+
+    if num_devices <= 5:
+        return "🟠 Varias personas cerca"
+
+    return "🔴 Muchas personas cerca"
+
+
+async def scan():
+
+    global seen_devices
+
+    print("\nRADAR BLE - detección de personas cercanas\n")
+
+    while True:
+
+        devices = await BleakScanner.discover(return_adv=True)
+
+        current_devices = set()
+
+        for address, (device, adv) in devices.items():
+            current_devices.add(address)
+
+        new_devices = current_devices - seen_devices
+
+        print("\n━━━━━━━━━━━━━━━━━━━━━━")
+        print("Dispositivos detectados:", len(current_devices))
+        print(estimate_people(len(current_devices)))
+
+        if new_devices:
+            print("\n🆕 Nuevos dispositivos detectados:")
+
+            for address, (device, adv) in devices.items():
+
+                if address in new_devices:
+
+                    name = device.name if device.name else "desconocido"
+                    rssi = adv.rssi
+
+                    print("Nombre:", name)
+                    print("ID:", address)
+                    print("RSSI:", rssi)
+
+        seen_devices = current_devices
+
+        print("━━━━━━━━━━━━━━━━━━━━━━")
+
+        await asyncio.sleep(5)
+
+
+asyncio.run(scan())
+```
