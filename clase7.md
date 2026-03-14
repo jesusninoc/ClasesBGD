@@ -10,6 +10,15 @@
 - Analizar nombres curiosos de dispositivos
 - Analizar datos de aplicaciones móviles
 - Radiografía digital de un día de vida con datos
+- Analizar cómo correlacionar horarios de actividad para identificar a un posible autor de un ataque.
+- Estudiar cómo pequeñas filtraciones de información pueden revelar la identidad de un usuario anónimo.
+- Analizar patrones de conexión para detectar uso de redes de anonimato.
+- Comparar estilos de escritura en mensajes para identificar autores (análisis estilométrico).
+- Analizar cómo la actividad online puede revelar la zona horaria de un atacante.
+- Detectar qué idioma utiliza realmente un atacante analizando errores lingüísticos.
+- Analizar patrones de actividad que revelan horarios laborales del atacante.
+- Detectar reutilización de nombres de usuario en distintos servicios.
+- Analizar cómo pequeñas pistas en código o comentarios pueden revelar la identidad del desarrollad
 
 --------------
 --------------
