@@ -14,6 +14,12 @@
 --------------
 --------------
 
+# Enviar señales de apagado
+* jesusninoc.com/09/02/prueba-de-comandos-para-apagar-luces-inteligentes-con-python-y-bleak-envio-de-comandos-a-leds-con-valores-hex/
+
+--------------
+--------------
+
 # Radar de dispositivos Bluetooth Low Energy: identificación y análisis de dispositivos cercanos
 ```Bash
 mkdir blue3
