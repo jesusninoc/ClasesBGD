@@ -32,7 +32,7 @@ cd Shadowbroker
 ```Bash
 mkdir face
 cd face
-python -m venv faceswap_env    
+python3.12 -m venv faceswap_env    
 source faceswap_env/bin/activate
 pip3.12 install insightface
 pip3.12 install opencv-python
