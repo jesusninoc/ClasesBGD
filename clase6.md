@@ -1,6 +1,9 @@
 # Reconocer emociones en imágenes de rostros
 * https://www.jesusninoc.com/04/12/reconocer-emociones-de-las-caras-de-las-personas-que-hay-en-una-imagen-utilizando-el-modelo-fer-facial-expression-recognition/
 
+# Reconocimiento de caras
+* https://www.elconfidencial.com/empresas/2026-03-11/experiencia-fan-algoritmos-bra_4310621/
+
 --------
 --------
 
