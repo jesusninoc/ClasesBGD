@@ -1,4 +1,5 @@
 # Aplicaciones
+- Analizar patrones de escritura
 - Detectar relojes inteligentes
 - Detectar auriculares inalámbricos
 - Analizar nombres curiosos de dispositivos
