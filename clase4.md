@@ -444,3 +444,11 @@ TensorFlow / PyTorch → deep learning
 
 # Reconocer emociones en imágenes de rostros
 * https://www.jesusninoc.com/04/12/reconocer-emociones-de-las-caras-de-las-personas-que-hay-en-una-imagen-utilizando-el-modelo-fer-facial-expression-recognition/
+
+--------
+--------
+
+# ¿Dónde está una persona?
+* https://blog.palantir.com/the-future-of-drone-navigation-7236075fdedf
+* GPS
+* % batería
