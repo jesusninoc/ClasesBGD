@@ -222,3 +222,294 @@ Esto podría indicar:
 - posible actividad sospechosa
 
 Por este motivo sería recomendable revisar su actividad con mayor detalle.
+
+-------------
+-------------
+
+# Introducción a Big Data y gestión de datos  
+## Caso práctico: análisis estadístico de un incidente de seguridad
+
+---
+
+# 1. Contexto del caso
+
+Una empresa tecnológica detecta un posible **incidente de seguridad relacionado con intentos de acceso fallidos** en su portal interno de administración.
+
+Durante una semana se han registrado los intentos de acceso fallidos por dirección IP. El equipo de seguridad sospecha que podría tratarse de un **ataque de fuerza bruta**.
+
+El objetivo del análisis es aplicar **estadística básica y funciones de análisis de datos** para identificar patrones, anomalías y posibles riesgos.
+
+---
+
+# 2. Datos del incidente
+
+## 2.1 Intentos de acceso fallidos por IP
+
+| IP | Lunes | Martes | Miércoles | Jueves | Viernes |
+|----|------|------|-----------|--------|--------|
+| 192.168.1.10 | 2 | 3 | 2 | 3 | 2 |
+| 192.168.1.21 | 1 | 1 | 0 | 1 | 0 |
+| 192.168.1.35 | 25 | 28 | 30 | 27 | 29 |
+| 192.168.1.48 | 3 | 2 | 3 | 2 | 3 |
+| 192.168.1.72 | 6 | 7 | 8 | 7 | 6 |
+
+---
+
+# 3. Introducción estadística
+
+## 3.1 Población, muestra y variables
+
+**Población**
+
+Todos los accesos registrados en el sistema durante la semana.
+
+**Muestra**
+
+Los intentos de acceso fallidos de cinco direcciones IP analizadas.
+
+**Variables**
+
+Variables cuantitativas:
+
+- número de intentos fallidos
+- frecuencia de accesos
+
+Variable categórica:
+
+- dirección IP
+
+---
+
+# 4. Tipos de datos y escala de medición
+
+Los datos analizados son:
+
+**Cuantitativos**
+
+Número de intentos de acceso.
+
+Escala de medición:
+
+**Escala de razón**
+
+Porque:
+
+- existe un valor cero
+- las diferencias son significativas
+
+---
+
+# 5. Medidas de tendencia central
+
+## 5.1 Media
+
+| IP | Media |
+|----|------|
+192.168.1.10 | 2.4 |
+192.168.1.21 | 0.6 |
+192.168.1.35 | 27.8 |
+192.168.1.48 | 2.6 |
+192.168.1.72 | 6.8 |
+
+Interpretación:
+
+La IP **192.168.1.35** presenta una media extremadamente superior al resto.
+
+---
+
+## 5.2 Mediana
+
+| IP | Mediana |
+|----|------|
+192.168.1.10 | 2 |
+192.168.1.21 | 1 |
+192.168.1.35 | 28 |
+192.168.1.48 | 3 |
+192.168.1.72 | 7 |
+
+La mediana confirma que **la IP 192.168.1.35 mantiene valores altos de forma constante**.
+
+---
+
+## 5.3 Moda
+
+| IP | Moda |
+|----|------|
+192.168.1.10 | 2 |
+192.168.1.21 | 1 y 0 |
+192.168.1.35 | ninguna |
+192.168.1.48 | 2 y 3 |
+192.168.1.72 | 6 y 7 |
+
+---
+
+# 6. Medidas de dispersión
+
+## 6.1 Rango
+
+| IP | Máximo | Mínimo | Rango |
+|----|------|------|------|
+192.168.1.10 | 3 | 2 | 1 |
+192.168.1.21 | 1 | 0 | 1 |
+192.168.1.35 | 30 | 25 | 5 |
+192.168.1.48 | 3 | 2 | 1 |
+192.168.1.72 | 8 | 6 | 2 |
+
+La IP con mayor rango es **192.168.1.35**.
+
+---
+
+## 6.2 Desviación estándar (aproximada)
+
+| IP | Desviación |
+|----|-----------|
+192.168.1.10 | baja |
+192.168.1.21 | muy baja |
+192.168.1.35 | media |
+192.168.1.48 | baja |
+192.168.1.72 | media |
+
+---
+
+## 6.3 Coeficiente de variación
+
+El coeficiente de variación permite comparar la variabilidad relativa.
+
+| IP | CV aproximado |
+|----|--------------|
+192.168.1.10 | bajo |
+192.168.1.21 | bajo |
+192.168.1.35 | medio |
+192.168.1.48 | bajo |
+192.168.1.72 | medio |
+
+---
+
+# 7. Funciones estadísticas básicas
+
+Ejemplos en una hoja de cálculo:
+
+**SUM**
+
+Total de intentos por IP
+
+```
+=SUM(B2:F2)
+```
+
+**COUNT**
+
+Número de registros
+
+```
+=COUNT(B2:F2)
+```
+
+**AVERAGE**
+
+Media de accesos
+
+```
+=AVERAGE(B2:F2)
+```
+
+---
+
+# 8. Funciones condicionales
+
+Ejemplo para detectar IP sospechosas:
+
+```
+=IF(AVERAGE(B2:F2)>10,"Sospechoso","Normal")
+```
+
+Ejemplo para contar intentos altos:
+
+```
+=COUNTIF(B2:F2,">10")
+```
+
+---
+
+# 9. Distribución de los datos
+
+La mayoría de IPs presentan valores bajos de intentos fallidos.
+
+Solo una IP presenta valores significativamente mayores.
+
+Esto sugiere una **distribución con un outlier claro**.
+
+---
+
+# 10. Probabilidad del evento
+
+Si se consideran 5 IPs y solo una presenta actividad anómala:
+
+Probabilidad de ataque detectado:
+
+```
+1 / 5 = 0.20
+```
+
+Es decir:
+
+**20 % de las IP analizadas muestran comportamiento sospechoso.**
+
+---
+
+# 11. Visualización de los datos
+
+## Gráfico de intentos de acceso
+
+```
+Intentos de acceso fallidos (media)
+
+IP1 ███
+IP2 █
+IP3 ███████████████████████████
+IP4 ███
+IP5 ███████
+```
+
+Interpretación:
+
+La IP **192.168.1.35** muestra un volumen de intentos muy superior.
+
+---
+
+# 12. Interpretación del incidente
+
+El análisis estadístico permite identificar:
+
+- un **outlier claro**
+- un patrón repetido de accesos
+- actividad muy superior a la media
+
+La IP **192.168.1.35** probablemente está ejecutando:
+
+- un ataque de fuerza bruta
+- un script automatizado
+
+---
+
+# 13. Recomendaciones de seguridad
+
+A partir del análisis se recomienda:
+
+- bloquear temporalmente la IP sospechosa
+- aplicar autenticación multifactor
+- limitar intentos de login
+- monitorizar accesos por IP
+- registrar actividad anómala en el SIEM
+
+---
+
+# 14. Conclusiones
+
+La estadística permite detectar anomalías en datos de seguridad de forma rápida.
+
+Las medidas de tendencia central ayudan a comprender el comportamiento general, mientras que las medidas de dispersión permiten detectar valores atípicos.
+
+La visualización de datos facilita identificar incidentes de seguridad de forma inmediata.
+
+Este tipo de análisis constituye la base para sistemas avanzados de detección de intrusiones y análisis de comportamiento en ciberseguridad.
