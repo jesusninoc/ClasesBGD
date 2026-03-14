@@ -6,7 +6,7 @@
 * Extensiones https://github.com/jesusninoc/Extension_Chrome_Ollama_Assistant
 * https://www.docker.com/
 * https://replit.com/
-* GitHub Codespaces
+* GitHub Codespaces https://github.com/codespaces
 
 -------------
 -------------
