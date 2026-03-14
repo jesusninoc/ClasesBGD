@@ -1,4 +1,5 @@
 # Aplicaciones
+- Analizar cuánto te “perfilan” las webs
 - Analizar patrones de escritura
 - Detectar relojes inteligentes
 - Detectar auriculares inalámbricos
