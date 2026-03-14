@@ -1,4 +1,7 @@
 # Aplicaciones
+- Detectar qué apps comparten datos con las mismas empresas
+- Analizar metadatos de miles de fotos de redes sociales
+- Detectar estafas analizando anuncios online
 - Analizar cuánto te “perfilan” las webs
 - Analizar patrones de escritura
 - Detectar relojes inteligentes
