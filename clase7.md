@@ -111,7 +111,7 @@ asyncio.run(scan())
 -------------
 -------------
 
-# Dispositivos cercanos (vecinos, gatos)
+# Dispositivos cercanos (vecinos, gatos, la gente por la calle)
 ```Python
 import asyncio
 from bleak import BleakScanner
